@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfDateTimePicker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow"
+        Height="800"
+        Width="600"
+        xmlns:my="clr-namespace:WpfControls.PeriodPicker.View;assembly=WpfControls.PeriodPicker">
+    <Grid>
+        <Button Content="测试"
+                Height="23"
+                HorizontalAlignment="Left"
+                Margin="197,30,0,0"
+                Name="button1"
+                VerticalAlignment="Top"
+                Width="75"
+                Click="button1_Click" />
+        <my:DateTimePicker x:Name="DateTimePicker" HorizontalAlignment="Left"
+                           Margin="23,30,0,0"
+                           VerticalAlignment="Top"
+                           Height="25"
+                           Width="150"
+                           Mode="Period"
+                           Periods="{Binding DataSources}"
+                           SelectedId="{Binding SelectedId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <!--
+        SelectedId="{Binding SelectedId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Periods="{Binding DataSources}"
+        IsEnabled="{Binding IsEnable}"
+        -->
+
+        <Button Content="切换数据源" Width="75" Height="23" Click="ButtonBase_OnClick"/>
+    </Grid>
+</Window>
