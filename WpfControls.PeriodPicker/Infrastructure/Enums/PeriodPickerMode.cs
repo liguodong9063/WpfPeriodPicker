@@ -2,7 +2,10 @@
 
 namespace WpfControls.PeriodPicker.Infrastructure.Enums
 {
-    public enum DateTimePickerMode
+    /// <summary>
+    /// 期间选择模式
+    /// </summary>
+    public enum PeriodPickerMode
     {
         [Description("自然月份")]
         Month,

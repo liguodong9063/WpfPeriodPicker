@@ -59,21 +59,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Dto\CustomDateTimePickerDto.cs" />
-    <Compile Include="Infrastructure\Enums\DateTimePickerMode.cs" />
+    <Compile Include="Dto\CustomPeriodPickerDto.cs" />
+    <Compile Include="Infrastructure\Enums\PeriodPickerMode.cs" />
     <Compile Include="Infrastructure\ModelBase.cs" />
     <Compile Include="UserControls\CustomCellButton.cs" />
-    <Compile Include="View\DateTimePicker.xaml.cs">
-      <DependentUpon>DateTimePicker.xaml</DependentUpon>
+    <Compile Include="View\PeriodPicker.xaml.cs">
+      <DependentUpon>PeriodPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DateTimePickerPopupView.xaml.cs">
-      <DependentUpon>DateTimePickerPopupView.xaml</DependentUpon>
+    <Compile Include="View\PeriodPickerPopupView.xaml.cs">
+      <DependentUpon>PeriodPickerPopupView.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\DateTimePicker.xaml">
+    <Page Include="View\PeriodPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\DateTimePickerPopupView.xaml">
+    <Page Include="View\PeriodPickerPopupView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

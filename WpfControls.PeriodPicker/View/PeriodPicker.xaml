@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfControls.PeriodPicker.View.DateTimePicker"
+﻿<UserControl x:Class="WpfControls.PeriodPicker.View.PeriodPicker"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,25 +21,32 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <ControlTemplate x:Key="TextBoxErrorTemplate">
-            <Border BorderThickness="1" BorderBrush="Red">
-                <AdornedElementPlaceholder />
-            </Border>
-        </ControlTemplate>
     </UserControl.Resources>
     <Grid Height="22">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="DisplayTextBox" Grid.Row="0" Height="22" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Padding="0,0,20,0" VerticalAlignment="Center" MaxLength="6" TextChanged="DisplayTextBox_OnTextChanged">
+        <TextBox x:Name="DisplayTextBox" Grid.Row="0" Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,20,0" MaxLength="6" TextChanged="DisplayTextBox_OnTextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox">
-                    <Setter Property="Validation.ErrorTemplate" Value="{StaticResource TextBoxErrorTemplate}" />
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="BorderBrush" Value="#b6b6b6"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Validation.ErrorTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <DockPanel>
+                                    <Border BorderBrush="Red" BorderThickness="1">
+                                        <AdornedElementPlaceholder />
+                                    </Border>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </TextBox.Style>
         </TextBox>
         <ToggleButton Grid.Row="0" Click="OpenPopupIconButton_Click" HorizontalAlignment="Right" Width="20" Style="{StaticResource DateEditPageToggleButtonStyleNew}"/>
-        <Popup x:Name="DateTimePickerPopup" PopupAnimation="Fade" Placement="Bottom" AllowsTransparency="True" StaysOpen="False" IsOpen="False" Height="190" Width="204"/>
+        <Popup x:Name="PeriodPickerPopup" PopupAnimation="Fade" Placement="Bottom" AllowsTransparency="True" StaysOpen="False" IsOpen="False" Height="190" Width="204"/>
     </Grid>
 </UserControl>

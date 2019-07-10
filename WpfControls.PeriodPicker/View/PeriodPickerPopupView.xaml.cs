@@ -8,7 +8,7 @@ using WpfControls.PeriodPicker.UserControls;
 
 namespace WpfControls.PeriodPicker.View
 {
-    public partial class DateTimePickerPopupView
+    public partial class PeriodPickerPopupView
     {
         /// <summary>
         /// 列数量
@@ -23,17 +23,17 @@ namespace WpfControls.PeriodPicker.View
         private int? _selectedId;
         private string _selectedValue;
 
-        private readonly DateTimePickerMode _mode;
+        private readonly PeriodPickerMode _mode;
 
-        private List<CustomDateTimePickerDto> _dataSources;
-        private List<CustomDateTimePickerDisplayRowDto> _displayRows;
+        private List<CustomPeriodPickerDto> _dataSources;
+        private List<CustomPeriodPickerDisplayRowDto> _displayRows;
 
         /// <summary>
         /// 确定选择事件
         /// </summary>
         public Action<int?,string> SelectedValueChangedAction;
 
-        public DateTimePickerPopupView()
+        public PeriodPickerPopupView()
         {
             InitializeComponent();
         }
@@ -42,9 +42,9 @@ namespace WpfControls.PeriodPicker.View
         /// 自然月模式
         /// </summary>
         /// <param name="selectedValue"></param>
-        public DateTimePickerPopupView(string selectedValue) : this()
+        public PeriodPickerPopupView(string selectedValue) : this()
         {
-            _mode = DateTimePickerMode.Month;
+            _mode = PeriodPickerMode.Month;
             if (string.IsNullOrEmpty(selectedValue)||selectedValue.Length<4||!int.TryParse(selectedValue.Substring(0,4),out var year))
             {
                 year = DateTime.Now.Year;
@@ -58,9 +58,9 @@ namespace WpfControls.PeriodPicker.View
         /// </summary>
         /// <param name="dataSources"></param>
         /// <param name="selectedId"></param>
-        public DateTimePickerPopupView(List<CustomDateTimePickerDto> dataSources, int? selectedId) : this()
+        public PeriodPickerPopupView(List<CustomPeriodPickerDto> dataSources, int? selectedId) : this()
         {
-            _mode = DateTimePickerMode.Period;
+            _mode = PeriodPickerMode.Period;
 
             //初始化Index
             var index = 0;
@@ -126,7 +126,7 @@ namespace WpfControls.PeriodPicker.View
         /// <param name="cE"></param>
         private void PreYearButton_OnClick(object cSender, RoutedEventArgs cE)
         {
-            if (_mode != DateTimePickerMode.Month)
+            if (_mode != PeriodPickerMode.Month)
             {
                 SelectedIndex = SelectedIndex - 1;
             }
@@ -144,7 +144,7 @@ namespace WpfControls.PeriodPicker.View
         /// <param name="cE"></param>
         private void NextYearButton_OnClick(object cSender, RoutedEventArgs cE)
         {
-            if (_mode != DateTimePickerMode.Month)
+            if (_mode != PeriodPickerMode.Month)
             {
                 SelectedIndex = SelectedIndex + 1;
             }
@@ -161,21 +161,21 @@ namespace WpfControls.PeriodPicker.View
         /// <param name="selectedIndex"></param>
         private void Bind(int selectedIndex)
         {
-            if (_mode == DateTimePickerMode.Month)
+            if (_mode == PeriodPickerMode.Month)
             {
                 SelectedYearTextBlock.Text = SelectedYear.ToString("D4");
-                var cells = new List<CustomDateTimePickerCellDto>();
+                var cells = new List<CustomPeriodPickerCellDto>();
                 for (var i = 1; i <= 12; i++)
                 {
-                    cells.Add(new CustomDateTimePickerCellDto
+                    cells.Add(new CustomPeriodPickerCellDto
                     {
                         DisplayName = $"{i:D2}月",
                         Value = $"{SelectedYear}{i:D2}"
                     });
                 }
-                _dataSources = new List<CustomDateTimePickerDto>
+                _dataSources = new List<CustomPeriodPickerDto>
                 {
-                    new CustomDateTimePickerDto
+                    new CustomPeriodPickerDto
                     {
                         Index=1,
                         DisplayName = SelectedYear.ToString(),
@@ -183,13 +183,13 @@ namespace WpfControls.PeriodPicker.View
                     }
                 };
             }
-            _displayRows = new List<CustomDateTimePickerDisplayRowDto>();
-            var toDisplayCells = _dataSources.FirstOrDefault(a => _mode==DateTimePickerMode.Month || a.Index == selectedIndex)?.Cells.Skip(TotalCellSize * 0).ToList() ?? new List<CustomDateTimePickerCellDto>();
+            _displayRows = new List<CustomPeriodPickerDisplayRowDto>();
+            var toDisplayCells = _dataSources.FirstOrDefault(a => _mode==PeriodPickerMode.Month || a.Index == selectedIndex)?.Cells.Skip(TotalCellSize * 0).ToList() ?? new List<CustomPeriodPickerCellDto>();
             var displayViewRowCount = Math.Ceiling((double)toDisplayCells.Count / ColumnSize);
 
             for (var i = 0; i < displayViewRowCount; i++)
             {
-                var rowDto = new CustomDateTimePickerDisplayRowDto
+                var rowDto = new CustomPeriodPickerDisplayRowDto
                 {
                     IsCell1Enable = toDisplayCells.Count >= i * ColumnSize + 1,
                     IsCell2Enable = toDisplayCells.Count >= i * ColumnSize + 2,
@@ -201,33 +201,33 @@ namespace WpfControls.PeriodPicker.View
                     rowDto.Cell1DisplayName = toDisplayCells[i * ColumnSize].DisplayName;
                     rowDto.Cell1Value = toDisplayCells[i * ColumnSize].Value;
                     rowDto.Cell1Id = toDisplayCells[i * ColumnSize].Id;
-                    rowDto.IsCell1Selected = _mode==DateTimePickerMode.Month? toDisplayCells[i * ColumnSize].Value == SelectedValue: toDisplayCells[i * ColumnSize].Id == _selectedId;
+                    rowDto.IsCell1Selected = _mode==PeriodPickerMode.Month? toDisplayCells[i * ColumnSize].Value == SelectedValue: toDisplayCells[i * ColumnSize].Id == _selectedId;
                 }
                 if (rowDto.IsCell2Enable)
                 {
                     rowDto.Cell2DisplayName = toDisplayCells[i * ColumnSize + 1].DisplayName;
                     rowDto.Cell2Value = toDisplayCells[i * ColumnSize + 1].Value;
                     rowDto.Cell2Id = toDisplayCells[i * ColumnSize+1].Id;
-                    rowDto.IsCell2Selected = _mode == DateTimePickerMode.Month ? toDisplayCells[i * ColumnSize+1].Value == SelectedValue : toDisplayCells[i * ColumnSize+1].Id == _selectedId;
+                    rowDto.IsCell2Selected = _mode == PeriodPickerMode.Month ? toDisplayCells[i * ColumnSize+1].Value == SelectedValue : toDisplayCells[i * ColumnSize+1].Id == _selectedId;
                 }
                 if (rowDto.IsCell3Enable)
                 {
                     rowDto.Cell3DisplayName = toDisplayCells[i * ColumnSize + 2].DisplayName;
                     rowDto.Cell3Value = toDisplayCells[i * ColumnSize + 2].Value;
                     rowDto.Cell3Id = toDisplayCells[i * ColumnSize+2].Id;
-                    rowDto.IsCell3Selected = _mode == DateTimePickerMode.Month ? toDisplayCells[i * ColumnSize+2].Value == SelectedValue : toDisplayCells[i * ColumnSize+2].Id == _selectedId;
+                    rowDto.IsCell3Selected = _mode == PeriodPickerMode.Month ? toDisplayCells[i * ColumnSize+2].Value == SelectedValue : toDisplayCells[i * ColumnSize+2].Id == _selectedId;
                 }
                 if (rowDto.IsCell4Enable)
                 {
                     rowDto.Cell4DisplayName = toDisplayCells[i * ColumnSize + 3].DisplayName;
                     rowDto.Cell4Value = toDisplayCells[i * ColumnSize + 3].Value;
                     rowDto.Cell4Id = toDisplayCells[i * ColumnSize+3].Id;
-                    rowDto.IsCell4Selected = _mode == DateTimePickerMode.Month ? toDisplayCells[i * ColumnSize+3].Value == SelectedValue : toDisplayCells[i * ColumnSize+3].Id == _selectedId;
+                    rowDto.IsCell4Selected = _mode == PeriodPickerMode.Month ? toDisplayCells[i * ColumnSize+3].Value == SelectedValue : toDisplayCells[i * ColumnSize+3].Id == _selectedId;
                 }
                 _displayRows.Add(rowDto);
             }
             //设置上一年度、下一年度按钮是否可用
-            if (_mode == DateTimePickerMode.Month)
+            if (_mode == PeriodPickerMode.Month)
             {
                 PreViewButton.IsEnabled = true;
                 NextViewButton.IsEnabled = true;
@@ -252,7 +252,7 @@ namespace WpfControls.PeriodPicker.View
             if (button == null) return;
             _selectedValue = button.InputValue;
             _selectedId = button.PeriodId;
-            if (_mode == DateTimePickerMode.Month)
+            if (_mode == PeriodPickerMode.Month)
             {
                 foreach (var rowDto in _displayRows)
                 {

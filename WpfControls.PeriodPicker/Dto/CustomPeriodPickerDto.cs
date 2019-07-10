@@ -6,20 +6,20 @@ namespace WpfControls.PeriodPicker.Dto
     /// <summary>
     /// 控件原始数据源对象
     /// </summary>
-    public class CustomDateTimePickerDto
+    public class CustomPeriodPickerDto
     {
         public int Index { get; set; }
         public string DisplayName { get; set; }
         /// <summary>
         /// 所有的核算期
         /// </summary>
-        public List<CustomDateTimePickerCellDto> Cells { get; set; }
+        public List<CustomPeriodPickerCellDto> Cells { get; set; }
     }
 
     /// <summary>
     /// 控件原始数据源单元格对象
     /// </summary>
-    public class CustomDateTimePickerCellDto
+    public class CustomPeriodPickerCellDto
     {
         public string DisplayName { get; set; }
         public string Value { get; set; }
@@ -29,7 +29,7 @@ namespace WpfControls.PeriodPicker.Dto
     /// <summary>
     /// 控件弹出框区域行对象
     /// </summary>
-    public class CustomDateTimePickerDisplayRowDto:ModelBase
+    public class CustomPeriodPickerDisplayRowDto:ModelBase
     {
         private bool _isCell1Enable;
         private bool _isCell2Enable;

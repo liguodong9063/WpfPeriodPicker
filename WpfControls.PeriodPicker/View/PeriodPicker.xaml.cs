@@ -9,25 +9,25 @@ using WpfControls.PeriodPicker.Infrastructure.Enums;
 
 namespace WpfControls.PeriodPicker.View
 {
-    public partial class DateTimePicker
+    public partial class PeriodPicker
     {
         /// <summary>
         /// 选中值（例如：201804）【月度模式使用】
         /// </summary>
-        public static readonly DependencyProperty SelectedValueProperty = DependencyProperty.Register("SelectedValue", typeof(string), typeof(DateTimePicker), new PropertyMetadata(string.Empty,OnSelectedValueChangedCallBack));
+        public static readonly DependencyProperty SelectedValueProperty = DependencyProperty.Register("SelectedValue", typeof(string), typeof(PeriodPicker), new PropertyMetadata(string.Empty,OnSelectedValueChangedCallBack));
         /// <summary>
         /// 选中的期间ID（例如：20）【期间模式使用】
         /// </summary>
-        public static readonly DependencyProperty SelectedIdProperty = DependencyProperty.Register("SelectedId", typeof(int?), typeof(DateTimePicker), new PropertyMetadata(null, OnSelectedIdChangedCallBack));
+        public static readonly DependencyProperty SelectedIdProperty = DependencyProperty.Register("SelectedId", typeof(int?), typeof(PeriodPicker), new PropertyMetadata(null, OnSelectedIdChangedCallBack));
         /// <summary>
         /// 期间数据源（仅期间模式使用）
         /// </summary>
-        public static readonly DependencyProperty PeriodsProperty = DependencyProperty.Register("Periods", typeof(List<CustomDateTimePickerDto>), typeof(DateTimePicker), new PropertyMetadata(new List<CustomDateTimePickerDto>(), OnPeriodsChangedCallBack));
+        public static readonly DependencyProperty PeriodsProperty = DependencyProperty.Register("Periods", typeof(List<CustomPeriodPickerDto>), typeof(PeriodPicker), new PropertyMetadata(new List<CustomPeriodPickerDto>(), OnPeriodsChangedCallBack));
 
         /// <summary>
         /// 日期选择Popup视图
         /// </summary>
-        private DateTimePickerPopupView _dateTimePopupView;
+        private PeriodPickerPopupView _periodPopupView;
 
         /// <summary>
         /// 是否手工输入改变中
@@ -50,7 +50,7 @@ namespace WpfControls.PeriodPicker.View
         /// </summary>
         private bool _isPeriodsChanged = false;
 
-        public DateTimePicker()
+        public PeriodPicker()
         {
             InitializeComponent();
         }
@@ -75,16 +75,16 @@ namespace WpfControls.PeriodPicker.View
             }
         }
 
-        public List<CustomDateTimePickerDto> Periods
+        public List<CustomPeriodPickerDto> Periods
         {
-            private get => (List<CustomDateTimePickerDto>)GetValue(PeriodsProperty);
+            private get => (List<CustomPeriodPickerDto>)GetValue(PeriodsProperty);
             set => SetValue(PeriodsProperty, value);
         }
 
         /// <summary>
         /// 日期控件模式（0：自然月模式；1：期间模式；）
         /// </summary>
-        public DateTimePickerMode Mode { private get; set; }
+        public PeriodPickerMode Mode { private get; set; }
 
         public Action<int?,string> SelectedValueChangedAction;
 
@@ -95,36 +95,36 @@ namespace WpfControls.PeriodPicker.View
         /// <param name="e"></param>
         private static void OnSelectedIdChangedCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is DateTimePicker source)) return;
+            if (!(d is PeriodPicker source)) return;
             source.ResetDisplayText(source, false);
         }
 
         private static void OnPeriodsChangedCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is DateTimePicker source)) return;
+            if (!(d is PeriodPicker source)) return;
             source.ResetDisplayText(source, true);
         }
 
         /// <summary>
         /// 重置控件显示值
         /// </summary>
-        /// <param name="dateTimePicker"></param>
+        /// <param name="picker"></param>
         /// <param name="isPeriodChanged"></param>
-        private void ResetDisplayText(DateTimePicker dateTimePicker,bool isPeriodChanged)
+        private void ResetDisplayText(PeriodPicker picker,bool isPeriodChanged)
         {
-            if (dateTimePicker._isTextInputing) return;
+            if (picker._isTextInputing) return;
             if (isPeriodChanged)
             {
-                dateTimePicker._isPeriodsChanged = true;
+                picker._isPeriodsChanged = true;
             }
-            foreach (var period in dateTimePicker.Periods)
+            foreach (var period in picker.Periods)
             {
-                var selectedCell = period.Cells.FirstOrDefault(a => a.Id == dateTimePicker.SelectedId);
+                var selectedCell = period.Cells.FirstOrDefault(a => a.Id == picker.SelectedId);
                 if (selectedCell == null) continue;
-                dateTimePicker.DisplayTextBox.Text = selectedCell.Value;
+                picker.DisplayTextBox.Text = selectedCell.Value;
                 return;
             }
-            dateTimePicker.DisplayTextBox.Text = string.Empty;
+            picker.DisplayTextBox.Text = string.Empty;
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace WpfControls.PeriodPicker.View
         /// <param name="e"></param>
         private static void OnSelectedValueChangedCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is DateTimePicker source)) return;
+            if (!(d is PeriodPicker source)) return;
             if (source._isTextInputing) return;
             source.DisplayTextBox.Text = source.SelectedValue;
         }
@@ -146,54 +146,54 @@ namespace WpfControls.PeriodPicker.View
         /// <param name="e"></param>
         private void OpenPopupIconButton_Click(object sender, RoutedEventArgs e)
         {    
-            if (DateTimePickerPopup.IsOpen)
+            if (PeriodPickerPopup.IsOpen)
             {
-                DateTimePickerPopup.IsOpen = false;
+                PeriodPickerPopup.IsOpen = false;
             }
-            if (_dateTimePopupView == null)
+            if (_periodPopupView == null)
             {
-                _dateTimePopupView = Mode == DateTimePickerMode.Month ? new DateTimePickerPopupView(DisplayTextBox.Text) : new DateTimePickerPopupView(Periods, SelectedId);
-                _dateTimePopupView.SelectedValueChangedAction += (selectedId,selectedValue) =>
+                _periodPopupView = Mode == PeriodPickerMode.Month ? new PeriodPickerPopupView(DisplayTextBox.Text) : new PeriodPickerPopupView(Periods, SelectedId);
+                _periodPopupView.SelectedValueChangedAction += (selectedId,selectedValue) =>
                 {
                     //备份旧值并赋予新值
                     _isSelectionChanging = true;
                     SetIdValue(selectedId, selectedValue);
                     _isSelectionChanging = false;
-                    DateTimePickerPopup.IsOpen = false;
+                    PeriodPickerPopup.IsOpen = false;
 
                     TriggerSelectionChangedAction();
                 };
             }
             else
             {
-                if (Mode == DateTimePickerMode.Month)
+                if (Mode == PeriodPickerMode.Month)
                 {
-                    _dateTimePopupView.SelectedValue = SelectedValue;
+                    _periodPopupView.SelectedValue = SelectedValue;
                 }
                 else
                 {
                     if (_isPeriodsChanged)
                     {
-                        _dateTimePopupView = new DateTimePickerPopupView(Periods, SelectedId);
-                        _dateTimePopupView.SelectedValueChangedAction += (selectedId, selectedValue) =>
+                        _periodPopupView = new PeriodPickerPopupView(Periods, SelectedId);
+                        _periodPopupView.SelectedValueChangedAction += (selectedId, selectedValue) =>
                         {
                             //备份旧值并赋予新值
                             _isSelectionChanging = true;
                             SetIdValue(selectedId, selectedValue);
                             _isSelectionChanging = false;
-                            DateTimePickerPopup.IsOpen = false;
+                            PeriodPickerPopup.IsOpen = false;
 
                             TriggerSelectionChangedAction();
                         };
                     }
                     else
                     {
-                        _dateTimePopupView.SelectedId = SelectedId;
+                        _periodPopupView.SelectedId = SelectedId;
                     }
                 }
             }
-            DateTimePickerPopup.Child = _dateTimePopupView;
-            DateTimePickerPopup.IsOpen = true;
+            PeriodPickerPopup.Child = _periodPopupView;
+            PeriodPickerPopup.IsOpen = true;
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace WpfControls.PeriodPicker.View
             
             _isTextInputing = true;
             //设置新值
-            if (Mode == DateTimePickerMode.Month)
+            if (Mode == PeriodPickerMode.Month)
             {
                 SelectedValue = DisplayTextBox.Text;
             }
@@ -254,7 +254,7 @@ namespace WpfControls.PeriodPicker.View
         /// </summary>
         private void TriggerSelectionChangedAction()
         {
-            if (Mode == DateTimePickerMode.Month)
+            if (Mode == PeriodPickerMode.Month)
             {
                 if (_preSelectedValue == SelectedValue) return;
             }
