@@ -47,6 +47,6 @@
             </TextBox.Style>
         </TextBox>
         <ToggleButton Grid.Row="0" Click="OpenPopupIconButton_Click" HorizontalAlignment="Right" Width="20" Style="{StaticResource DateEditPageToggleButtonStyleNew}"/>
-        <Popup x:Name="PeriodPickerPopup" PopupAnimation="Fade" Placement="Bottom" AllowsTransparency="True" StaysOpen="False" IsOpen="False" Height="190" Width="204"/>
+        <Popup x:Name="PeriodPickerPopup" PopupAnimation="Fade" Placement="Bottom" AllowsTransparency="True" StaysOpen="False" IsOpen="False" Height="245" Width="230"/>
     </Grid>
 </UserControl>
