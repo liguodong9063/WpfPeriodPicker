@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="150"         
-             MaxWidth="150" MaxHeight="25">
+             MaxWidth="150">
     <UserControl.Resources>
         <Style x:Key="DateEditPageToggleButtonStyleNew" TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
@@ -22,22 +22,22 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Height="22">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="DisplayTextBox" Grid.Row="0" Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0,0,20,0" MaxLength="6" TextChanged="DisplayTextBox_OnTextChanged">
+        <TextBox x:Name="DisplayTextBox" Grid.Row="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Padding="0,0,20,0" MaxLength="6" TextChanged="DisplayTextBox_OnTextChanged">
             <TextBox.Style>
                 <Style TargetType="TextBox">
-                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
                     <Setter Property="BorderBrush" Value="#b6b6b6"/>
                     <Setter Property="BorderThickness" Value="1"/>
                     <Setter Property="Validation.ErrorTemplate">
                         <Setter.Value>
                             <ControlTemplate>
                                 <DockPanel>
-                                    <Border BorderBrush="Red" BorderThickness="1">
-                                        <AdornedElementPlaceholder />
+                                    <Border BorderBrush="Red" BorderThickness="1" UseLayoutRounding="False">
+                                        <AdornedElementPlaceholder UseLayoutRounding="True"/>
                                     </Border>
                                 </DockPanel>
                             </ControlTemplate>

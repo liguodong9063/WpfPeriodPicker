@@ -18,6 +18,7 @@
                            VerticalAlignment="Top"
                            Height="25"
                            Width="150"
+                           FontSize="14"
                            Mode="Period"
                            Periods="{Binding DataSources}"
                            SelectedId="{Binding SelectedId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
